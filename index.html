@@ -98,7 +98,7 @@ text-align: center;
     <div id="my_camera"></div>
 
     <button id="snapbtn">Take snapshot</button>
-    <button id="changecamera">change camera<button>
+    <button id="changecamera">change camera</button>
   </div>
 
   <img class="logo" src="STRESSBUSTER.png"></img>
@@ -135,18 +135,58 @@ i++;
 var camera=0;
 document.getElementById("changecamera").addEventListener("click",function(){
 
-camera=camera%2==0?1:0;
-Webcam.set(
-'constraints', { //set the constraints and initialize camera device (0 or 1 for back and front - varies which is which depending on device)
-  width: 320,
-  height: 240,
-  dest_width: 1280,
-  dest_height: 720,
-  image_format: 'jpeg',
-  jpeg_quality: 90,
-// sourceId: cameras[camera]
-}
-);
+  var webcamOptions = {
+    width: 320,
+		height: 240,
+		dest_width: 1280,
+		dest_height: 720,
+    image_format: 'jpeg',
+    jpeg_quality: 90,
+  };
+  // if you don't need any additional options then use `var webcamOptions = true;`
+
+  // `enumerateDevices` is a method for getting all available media devices
+  if (typeof navigator.mediaDevices.enumerateDevices === 'undefined') {
+    // if method `enumerateDevices` doesn't support on the device we just run webcam
+    webcam.set(webcamOptions);
+  } else {
+    navigator.mediaDevices.enumerateDevices()
+      .then(function (devices) {
+        // Get all cameras on the device
+        var cameras = devices.filter(function (device) {
+          return device.kind === 'videoinput';
+        });
+
+        var deviceId = null;
+
+        cameras.forEach(function (camera) {
+          // Search back camera on the device
+          if (camera.label.toLowerCase().search('back') > -1) {
+            deviceId = camera.deviceId;
+          }
+        });
+
+        // If we don't find the back camera we use last camera in the list
+        if (!deviceId && cameras.length) {
+          deviceId = cameras[cameras.length - 1].deviceId;
+        }
+
+        if (deviceId) {
+          // If we have `deviceId` of a camera we run webcam with the following params:
+          webcamOptions.constraints = {
+            deviceId: {
+              exact: deviceId
+            },
+            facingMode: 'environment'
+          }
+        }
+
+        webcam.set(webcamOptions);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
 Webcam.attach( '#my_camera' );
 
 
