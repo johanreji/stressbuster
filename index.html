@@ -2,21 +2,220 @@
 <html>
 <head>
 
+
+
+
+
+
 <style>
+#myCanvas{
+
+   background:  no-repeat center center;
+   background-size: cover;
+   height: 100%;
+   width: 100%;
+
+}
+.droppable { background: #08c; color: #fff; padding: 20px 0; text-align: center;
+  width: 25%;
+min-height: 70px;
+  position: absolute;
+  top:35%;
+left:50%;
+transform: translate(-50%,0);
+cursor: pointer;
+border-radius: 10px;
+}
+.droppable.dragover { background: #00CC71; }
+
 body {
 margin: 0px;
 padding: 0px;
 }
+.logo{
+  position: absolute;
+  top: 25%;
+  left: 50%;
+  height: 50px;
+  width: auto;
+  transform: translate(-50%,0);
+}
+.smashbtn{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,0);
+  color: white;
+  border: none;
+  border-radius: 5px;
+
+  padding:  10px 5px;
+  cursor: pointer;
+  background-color: grey;
+
+}
+.capturebtn,#snapbtn{
+padding: 10px;
+  background-color: yellow;
+  color:black;
+  border:none;
+  border-radius: 10px;
+  cursor: pointer;
+
+}
+#capturediv{
+  width: 25%;
+  min-width: 350px;
+  position: absolute;
+  z-index: 10;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  display: none;
+  background: #08c;
+  border-radius: 10px;
+  padding: 10px;
+    text-align: center;
+}
+#my_camera{
+    width: 320px;
+    height: 240px;
+    margin: 5px;
+    position: relative;
+    left: 50%;
+    transform: translate(-50%,0);
+}
+
 </style>
 </head>
 <body>
-<div id="paint" style="height: 100vh;">
+<div id="home" style="position:relative;height:100vh;">
+  <div id="capturediv">
+    <div id="my_camera"></div>
+
+    <button id="snapbtn">Take snapshot</button>
+  </div>
+  <img class="logo" src="STRESSBUSTER.png"></img>
+  <input type="file" id="file" multiple="true" style="display:none;">
+  <div class="droppable" id="box">Drop or click here to upload the image you want to destroy.<br>or<br><button class="capturebtn">capture</button></div>
+
+ <button class="smashbtn">Smash!</button>
+
+</div>
+
+<div id="paint" style="height: 100vh;visibility:hidden;">
 <canvas id="myCanvas"></canvas>
 </div>
 
 </body>
 
 </html>
-<script src="src.js">
+<script src="src.js"></script>
+<script type="text/javascript" src="webcamjs/webcam.min.js"></script>
+<script>
+<!-- Configure a few settings and attach camera -->
+var capturebtn=document.getElementsByClassName("capturebtn")[0];
+capturebtn.addEventListener("click",function(e){
+    e.stopPropagation();
+  document.getElementById("capturediv").style.display="block";
+  Webcam.set({
+    width: 320,
+		height: 240,
+		dest_width: 640,
+		dest_height: 480,
+    image_format: 'jpeg',
+    jpeg_quality: 90
+  });
+  Webcam.attach( '#my_camera' );
+
+});
+
+  document.getElementById("snapbtn").addEventListener("click",take_snapshot);
+  function take_snapshot() {
+      document.getElementById("capturediv").style.display="none";
+    // take snapshot and get image data
+    Webcam.snap( function(data_uri) {
+      // display results in page
+
+
+  document.getElementById('myCanvas').style.backgroundImage = "url(" + data_uri + ")";
+ document.getElementById('box').style.backgroundImage = "url(" + data_uri + ")";
+ document.getElementById('box').innerHTML='Image loaded!';
+ Webcam.reset();
+    } );
+  }
+
+</script>
+
+
+<script>
+
+
+var smashbtn=document.getElementsByClassName("smashbtn")[0];
+smashbtn.addEventListener("click",function(){
+
+  document.getElementById('paint').style.visibility="visible";
+  document.getElementById('home').style.display="none";
+
+});
+
+
+
+var input = document.getElementById("file");
+var element=document.getElementById("box");
+input.addEventListener('change', triggerCallback);
+element.appendChild(input);
+
+element.addEventListener('dragover', function(e) {
+  e.preventDefault();
+  e.stopPropagation();
+  element.classList.add('dragover');
+});
+
+element.addEventListener('dragleave', function(e) {
+  e.preventDefault();
+  e.stopPropagation();
+  element.classList.remove('dragover');
+});
+
+element.addEventListener('drop', function(e) {
+  e.preventDefault();
+  e.stopPropagation();
+  element.classList.remove('dragover');
+  triggerCallback(e);
+});
+
+element.addEventListener('click', function() {
+  input.value = null;
+  input.click();
+});
+
+function triggerCallback(e) {
+  var files;
+  if(e.dataTransfer) {
+    files = e.dataTransfer.files;
+  } else if(e.target) {
+    files = e.target.files;
+  }
+  var file=files[0];
+  var reader = new FileReader();
+  reader.onloadend = function(){
+    document.getElementById('myCanvas').style.backgroundImage = "url(" + reader.result + ")";
+     // var canvas = document.getElementById('myCanvas');
+     // var ctx = canvas.getContext('2d');
+     // var img1 = new Image();
+     // img1.src=reader.result;
+     // ctx.drawImage(img1, 0, 0 );
+     document.getElementById('box').style.backgroundImage = "url(" + reader.result + ")";
+     document.getElementById('box').innerHTML='Uploaded!';
+
+  }
+  if(file){
+     reader.readAsDataURL(file);
+   }else{
+   }
+}
+
+
 
 </script>
