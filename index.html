@@ -19,10 +19,8 @@
 .droppable { background: #08c; color: #fff; padding: 20px 0; text-align: center;
   width: 25%;
 min-height: 70px;
-  position: absolute;
-  top:35%;
-left:50%;
-transform: translate(-50%,0);
+margin:  20px auto;
+
 cursor: pointer;
 border-radius: 10px;
 }
@@ -33,18 +31,13 @@ margin: 0px;
 padding: 0px;
 }
 .logo{
-  position: absolute;
-  top: 25%;
-  left: 50%;
+margin-top: 200px;
   height: 50px;
-  width: auto;
-  transform: translate(-50%,0);
+
+    width: auto;
 }
 .smashbtn{
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%,0);
+
   color: white;
   border: none;
   border-radius: 5px;
@@ -54,7 +47,7 @@ padding: 0px;
   background-color: grey;
 
 }
-.capturebtn,#snapbtn{
+.capturebtn,#snapbtn,#changecamera{
 padding: 10px;
   background-color: yellow;
   color:black;
@@ -64,37 +57,50 @@ padding: 10px;
 
 }
 #capturediv{
-  width: 25%;
-  min-width: 350px;
-  position: absolute;
-  z-index: 10;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%,-50%);
+
+  width: 100%;
+ height: 100%;
+ z-index: 100000;
+background-color: white;
+position: absolute;
+margin-top: 0px;
+margin-left: 0px;
   display: none;
-  background: #08c;
-  border-radius: 10px;
-  padding: 10px;
-    text-align: center;
+
+
+
 }
 #my_camera{
-    width: 320px;
+  width: 25%;
+background: #08c;
+border-radius: 10px;
+padding: 20px;
+    min-width: 320px;
     height: 240px;
-    margin: 5px;
-    position: relative;
-    left: 50%;
-    transform: translate(-50%,0);
-}
+        text-align: center;
+    margin: 200px auto 5px auto;
 
+
+}
+#home{
+height:100vh;
+text-align: center;
+}
+.backdrop{
+
+}
 </style>
 </head>
 <body>
-<div id="home" style="position:relative;height:100vh;">
+<div id="home" >
+
   <div id="capturediv">
     <div id="my_camera"></div>
 
     <button id="snapbtn">Take snapshot</button>
+    <button id="changecamera">change camera<button>
   </div>
+
   <img class="logo" src="STRESSBUSTER.png"></img>
   <input type="file" id="file" multiple="true" style="display:none;">
   <div class="droppable" id="box">Drop or click here to upload the image you want to destroy.<br>or<br><button class="capturebtn">capture</button></div>
@@ -113,6 +119,44 @@ padding: 10px;
 <script src="src.js"></script>
 <script type="text/javascript" src="webcamjs/webcam.min.js"></script>
 <script>
+
+var cameras = new Array(); //create empty array to later insert available devices
+navigator.mediaDevices.enumerateDevices() // get the available devices found in the machine
+.then(function(devices) {
+devices.forEach(function(device) {
+var i = 0;
+if(device.kind=== "videoinput"){ //filter video devices only
+cameras[i]= device.deviceId; // save the camera id's in the camera array
+console.log("cameraaa  ",cameras[i]);
+i++;
+}
+});
+});
+var camera=0;
+document.getElementById("changecamera").addEventListener("click",function(){
+
+camera=camera%2==0?1:0;
+Webcam.set(
+'constraints', { //set the constraints and initialize camera device (0 or 1 for back and front - varies which is which depending on device)
+  width: 320,
+  height: 240,
+  dest_width: 1280,
+  dest_height: 720,
+  image_format: 'jpeg',
+  jpeg_quality: 90,
+sourceId: cameras[camera]
+}
+);
+Webcam.attach( '#my_camera' );
+
+
+
+});
+
+
+
+
+
 <!-- Configure a few settings and attach camera -->
 var capturebtn=document.getElementsByClassName("capturebtn")[0];
 capturebtn.addEventListener("click",function(e){
@@ -121,8 +165,8 @@ capturebtn.addEventListener("click",function(e){
   Webcam.set({
     width: 320,
 		height: 240,
-		dest_width: 640,
-		dest_height: 480,
+		dest_width: 1280,
+		dest_height: 720,
     image_format: 'jpeg',
     jpeg_quality: 90
   });
