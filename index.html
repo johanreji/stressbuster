@@ -1,35 +1,37 @@
 <!DOCTYPE HTML>
 <html>
-<head>
-<link href="https://fonts.googleapis.com/css?family=Architects+Daughter&display=swap" rel="stylesheet">
-<link href="css/style.css" rel="stylesheet">
 
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Outfit:wght@300;400;600;700&display=swap"
+    rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
 </head>
+
 <body>
-  <div class="preventmobile">
-    Mobile Version not currently available. Please view in larger screen
-  </div>
-  <div id="home" >
+
+  <div id="home">
     <div id="capturediv">
       <div id="my_camera"></div>
       <button id="snapbtn">Take snapshot</button>
-      <!-- <button id="changecamera">change camera</button> -->
-    </div>
-    <img class="logo" src="images/STRESSBUSTER.png"></img>
-
-    <input type="file" id="file" multiple="true" style="display:none;">
-    <div class="droppable" id="box">Drop or click here to load the image you want to destroy.
-      <br>
-      or
-      <br>
-      <button class="capturebtn">Open Camera</button>
-      <br>
-      <br>
-      <i>*we never upload images to our server.</i>
     </div>
 
-    <button class="smashbtn">Start Smashing!</button>
-    <img class="howto" src="images/howto.svg"></img>
+    <div class="home-content">
+      <img class="logo" src="images/STRESSBUSTER.png" alt="Stress Buster">
+      <p class="tagline">Load an image. Smash it. Feel better.</p>
+
+      <input type="file" id="file" multiple="true" style="display:none;">
+      <div class="droppable" id="box">
+        <div class="drop-icon">📷</div>
+        <p class="drop-text">Drop or tap here to load your image</p>
+        <div class="drop-divider"><span>or</span></div>
+        <button class="capturebtn">📸 Open Camera</button>
+        <p class="privacy-note">🔒 Images stay on your device. We never upload.</p>
+      </div>
+
+      <button class="smashbtn">💥 Start Smashing!</button>
+    </div>
   </div>
   <div id="menu">
     <button class="menuitem" onClick="changeTool(0);"><img src="images/hammer1.png"><br>Hammer</button>
@@ -41,11 +43,24 @@
   </div>
   <div id="paint">
     <canvas id="myCanvas"></canvas>
+    <div id="toolbar">
+      <button class="toolbar-btn active" id="tool-hammer" onclick="changeTool(0);"><img src="images/hammer1.png"
+          alt="Hammer"><span>Hammer</span></button>
+      <button class="toolbar-btn" id="tool-gun" onclick="changeTool(1);"><img src="images/gun.gif"
+          alt="Gun"><span>Gun</span></button>
+      <button class="toolbar-btn" onclick="clearcanvas();"><span>🔄</span><span>Reset</span></button>
+      <button class="toolbar-btn" onclick="window.location.reload();"><span>🏠</span><span>Home</span></button>
+    </div>
   </div>
+  <script>
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    window.scrollTo(0, 0);
+  </script>
+  <script type="text/javascript" src="js/src.js"></script>
+  <script type="text/javascript" src="js/menu.js"></script>
+  <script type="text/javascript" src="webcamjs/webcam.min.js"></script>
+  <script type="text/javascript" src="js/cam.js"></script>
+  <script type="text/javascript" src="js/load.js"></script>
 </body>
+
 </html>
-<script type="text/javascript" src="js/src.js"></script>
-<script type="text/javascript" src="js/menu.js"></script>
-<script type="text/javascript" src="webcamjs/webcam.min.js"></script>
-<script type="text/javascript" src="js/cam.js"></script>
-<script type="text/javascript" src="js/load.js"></script>

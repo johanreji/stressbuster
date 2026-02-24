@@ -1,128 +1,459 @@
-@media only screen and (max-device-width: 600px) {
-  .preventmobile{
-    width: 100%;
-    height: 100%;
-    z-index: 100000;
-    background-color: #EDEDED;
-    position: absolute;
-    margin-top: 0px;
-    margin-left: 0px;
-    display: block;
-    font-size: 50px;
-    color: black;
-  }
-  html{
-    font-family: 'Architects Daughter', cursive;
-  }
-  html {
-    width: 100%;
-    height: 100vh;
-    margin: 0px;
-    padding: 0px;
-    background-color: #EDEDED;
-  }
-}
-@media only screen and (min-device-width: 600px) {
-.preventmobile{
-  display: none;
-}
+/* ===== Base Styles ===== */
 
-#myCanvas{
-  background:  no-repeat center center;
-  background-size: cover;
-  height: 100%;
-  width: 100%;
-}
-.droppable {
-  background: #00C7C7;
-  color: #2c393f;
-  padding: 10px 0 0  0;
-  text-align: center;
-  width: 25%;
-  min-height: 70px;
-  margin:  20px auto;
-  cursor: pointer;
-  border-radius: 10px;
-}
-.droppable.dragover {
-  background: #EDEDED;
-  border: 2px solid black;
-  border-style: dashed;
-}
-html,button{
+html,
+button {
   font-family: 'Architects Daughter', cursive;
 }
-body {
 
-  margin: 0px;
-  padding: 0px;
-  background-color: #EDEDED;
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #f5f5fa;
+  color: #2c2c3a;
 }
-.logo{
-  margin-top: 100px;
-  height: 200px;
+
+/* ===== Home Page ===== */
+
+#home {
+  min-height: 100vh;
+  text-align: center;
+  background: linear-gradient(160deg, #f0f4ff 0%, #e8ecf8 30%, #f5f0fa 60%, #eef6f6 100%);
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Subtle animated gradient overlay */
+#home::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at 25% 40%, rgba(0, 199, 199, 0.07) 0%, transparent 50%),
+    radial-gradient(circle at 75% 70%, rgba(140, 80, 220, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 50% 90%, rgba(233, 69, 96, 0.04) 0%, transparent 40%);
+  animation: gradientShift 15s ease-in-out infinite alternate;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes gradientShift {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+
+  100% {
+    transform: translate(2%, 3%) rotate(3deg);
+  }
+}
+
+.home-content {
+  position: relative;
+  z-index: 1;
+  padding: 40px 20px 60px;
+}
+
+/* Logo */
+.logo {
+  margin-top: 30px;
+  height: 120px;
   width: auto;
+  animation: logoFloat 4s ease-in-out infinite;
 }
-.smashbtn{
-  font-weight: bold;
-  font-size: 20px;
+
+@keyframes logoFloat {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-8px);
+  }
 }
-.smashbtn,.capturebtn,#snapbtn,#changecamera,.menuitem{
-  padding: 10px;
-  background-color: #2c393f;
-  color:#EDEDED;
-  border:none;
-  border-radius: 10px;
+
+/* Tagline */
+.tagline {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 300;
+  font-size: 18px;
+  color: rgba(44, 44, 58, 0.55);
+  margin: 8px 0 30px;
+  letter-spacing: 0.5px;
+}
+
+/* Drop Zone Card */
+.droppable {
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1.5px solid rgba(0, 0, 0, 0.06);
+  color: #2c2c3a;
+  padding: 28px 20px 18px;
+  text-align: center;
+  width: 85%;
+  max-width: 420px;
+  margin: 0 auto 30px;
   cursor: pointer;
+  border-radius: 20px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+  transition: all 0.3s ease;
 }
-.menuitem{
-  width: 45%;
-  margin: 3px 0;
+
+.droppable:hover {
+  border-color: rgba(0, 199, 199, 0.35);
+  background: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 8px 32px rgba(0, 199, 199, 0.1);
 }
-#capturediv{
+
+.droppable.dragover {
+  background: rgba(0, 199, 199, 0.08);
+  border: 2px dashed #00C7C7;
+  box-shadow: 0 0 30px rgba(0, 199, 199, 0.12);
+}
+
+.drop-icon {
+  font-size: 40px;
+  margin-bottom: 10px;
+  animation: pulse 2.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+
+  50% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+}
+
+.drop-text {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 400;
+  font-size: 15px;
+  color: rgba(44, 44, 58, 0.65);
+  margin: 0 0 12px;
+}
+
+.drop-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 14px 0;
+}
+
+.drop-divider::before,
+.drop-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(0, 0, 0, 0.08);
+}
+
+.drop-divider span {
+  font-family: 'Outfit', sans-serif;
+  font-size: 12px;
+  color: rgba(44, 44, 58, 0.35);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.privacy-note {
+  font-family: 'Outfit', sans-serif;
+  font-size: 11px;
+  color: rgba(44, 44, 58, 0.35);
+  margin: 14px 0 0;
+}
+
+/* Buttons */
+.capturebtn {
+  padding: 10px 22px;
+  background: rgba(0, 199, 199, 0.08);
+  color: #009e9e;
+  border: 1.5px solid rgba(0, 199, 199, 0.3);
+  border-radius: 12px;
+  cursor: pointer;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  transition: all 0.25s ease;
+}
+
+.capturebtn:hover {
+  background: rgba(0, 199, 199, 0.15);
+  border-color: #00C7C7;
+}
+
+.smashbtn {
+  font-weight: 700;
+  font-size: 22px;
+  padding: 16px 48px;
+  background: linear-gradient(135deg, #e94560, #c23152);
+  color: #fff;
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
+  font-family: 'Architects Daughter', cursive;
+  letter-spacing: 1px;
+  box-shadow: 0 6px 24px rgba(233, 69, 96, 0.3);
+  transition: all 0.3s ease;
+  animation: smashPulse 2s ease-in-out infinite;
+}
+
+@keyframes smashPulse {
+
+  0%,
+  100% {
+    box-shadow: 0 6px 24px rgba(233, 69, 96, 0.3);
+  }
+
+  50% {
+    box-shadow: 0 8px 36px rgba(233, 69, 96, 0.45);
+  }
+}
+
+.smashbtn:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 10px 40px rgba(233, 69, 96, 0.4);
+}
+
+.smashbtn:active {
+  transform: translateY(1px) scale(0.98);
+}
+
+#snapbtn {
+  padding: 12px 28px;
+  background: linear-gradient(135deg, #00C7C7, #00a3a3);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* Camera capture overlay */
+#capturediv {
   width: 100%;
   height: 100%;
   z-index: 1000;
-  background-color: #EDEDED;
+  background-color: #f5f5fa;
   position: absolute;
-  margin-top: 0px;
-  margin-left: 0px;
+  top: 0;
+  left: 0;
   display: none;
+  text-align: center;
 }
-#my_camera{
-  width: 25%;
-  background: #00C7C7;
-  border-radius: 10px;
+
+#my_camera {
+  width: 90%;
+  max-width: 320px;
+  background: rgba(0, 199, 199, 0.08);
+  border: 1.5px solid rgba(0, 199, 199, 0.3);
+  border-radius: 16px;
   padding: 10px;
-  min-width: 320px;
+  min-width: 280px;
   height: 240px;
   text-align: center;
-  margin: 200px auto 5px auto;
+  margin: 80px auto 15px auto;
 }
-#home{
-  height:100vh;
-  text-align: center;
+
+/* ===== Canvas / Paint View ===== */
+
+#myCanvas {
+  background: no-repeat center center;
+  background-size: cover;
+  height: 100%;
+  width: 100%;
+  touch-action: none;
 }
-#paint{
+
+#paint {
   height: 100vh;
-  visibility:hidden;
+  visibility: hidden;
+  position: relative;
 }
-#menu{
+
+/* Right-click context menu (desktop) */
+#menu {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%,-50%);
+  transform: translate(-50%, -50%);
   display: none;
-  background: #00C7C7;
-  border-radius: 10px;
-  padding: 3px;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  padding: 6px;
   width: 320px;
   text-align: center;
+  z-index: 200;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
 }
-.howto{
-  display: block;
-  margin: 50px auto;
-  width: 200px;
-  height: 300px;
+
+.menuitem {
+  width: 45%;
+  margin: 4px 0;
+  padding: 10px;
+  background-color: #2c393f;
+  color: #EDEDED;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
 }
+
+/* ===== Floating Toolbar ===== */
+
+#toolbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 10px;
+  padding-bottom: max(8px, env(safe-area-inset-bottom));
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  z-index: 100;
+}
+
+.toolbar-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 8px 14px;
+  background: transparent;
+  color: rgba(44, 44, 58, 0.55);
+  border: 2px solid transparent;
+  border-radius: 12px;
+  cursor: pointer;
+  font-family: 'Outfit', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.toolbar-btn img {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+}
+
+.toolbar-btn span:first-child:not(:last-child) {
+  font-size: 24px;
+  line-height: 28px;
+}
+
+.toolbar-btn:hover {
+  background: rgba(0, 0, 0, 0.04);
+  color: #2c2c3a;
+}
+
+.toolbar-btn.active {
+  background: rgba(0, 199, 199, 0.1);
+  color: #009e9e;
+  border-color: rgba(0, 199, 199, 0.35);
+}
+
+/* ===== Desktop (min 600px) ===== */
+
+@media only screen and (min-width: 600px) {
+  .home-content {
+    padding: 60px 20px 80px;
+  }
+
+  .logo {
+    margin-top: 40px;
+    height: 180px;
+  }
+
+  .tagline {
+    font-size: 22px;
+    margin-bottom: 40px;
+  }
+
+  .droppable {
+    width: 40%;
+    max-width: 460px;
+    padding: 36px 30px 22px;
+  }
+
+  .drop-icon {
+    font-size: 48px;
+  }
+
+  .drop-text {
+    font-size: 16px;
+  }
+
+  .smashbtn {
+    font-size: 26px;
+    padding: 18px 56px;
+  }
+
+  #my_camera {
+    margin-top: 150px;
+  }
+}
+
+/* ===== Small screens ===== */
+
+@media only screen and (max-width: 599px) {
+  .logo {
+    height: 100px;
+    margin-top: 20px;
+  }
+
+  .tagline {
+    font-size: 15px;
+    margin-bottom: 20px;
+  }
+
+  .smashbtn {
+    font-size: 18px;
+    padding: 14px 36px;
+  }
+
+  .capturebtn {
+    font-size: 13px;
+  }
+
+  .droppable {
+    padding: 22px 16px 14px;
+  }
+
+  #menu {
+    width: 260px;
+  }
+
+  .menuitem {
+    font-size: 14px;
+  }
+
+  .toolbar-btn {
+    padding: 6px 10px;
+    font-size: 10px;
+  }
+
+  .toolbar-btn img {
+    width: 24px;
+    height: 24px;
+  }
+
+  .toolbar-btn span:first-child:not(:last-child) {
+    font-size: 20px;
+    line-height: 24px;
+  }
 }

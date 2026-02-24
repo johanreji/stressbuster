@@ -1,45 +1,39 @@
-function clearcanvas(){
+function clearcanvas() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  document.getElementById("menu").style.display="none";
+  document.getElementById("menu").style.display = "none";
 }
-// function saveimage(link){
-//
-//   //var image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");  // here is the most important part because if you dont replace you will get a DOM 18 exception.
-// //  link.href = canvas.toDataURL();
-//   //    link.download = "mypainting.png";
-// //alert(canvas.toDataURL());
-// //window.location.href=image;
-// link.href = canvas.toDataURL();
-//     link.download = "mypainting.png";
-//     // var images=new Image();
-//     // images.crossOrigin="anonymous";
-//     // images.src=canvas.toDataURL();
-// }
-function menuaction(e){
-  if(document.getElementById("menu").style.display=="block"){
-    document.getElementById("menu").style.display="none";
-    e.preventDefault();
+
+function menuaction(e) {
+  if (document.getElementById("menu").style.display == "block") {
+    document.getElementById("menu").style.display = "none";
+    if (e) e.preventDefault();
   }
-  else{
-    document.getElementById("menu").style.display="block";
-    e.preventDefault();
+  else {
+    document.getElementById("menu").style.display = "block";
+    if (e) e.preventDefault();
   }
 }
-document.getElementById("paint").addEventListener("contextmenu",function(e){
+document.getElementById("paint").addEventListener("contextmenu", function (e) {
   menuaction(e);
-},false);
+}, false);
 
-function changeTool(toolno){
+function changeTool(toolno) {
+  // Update active class on toolbar buttons
+  var toolbarBtns = document.querySelectorAll('.toolbar-btn');
+  toolbarBtns.forEach(function (btn) { btn.classList.remove('active'); });
+
   switch (toolno) {
-    case 0:tool=hammer;
-    document.getElementById("menu").style.display="none";
-    console.log(tool.mu);
-    break;
-    case 1:tool=gun;
-    document.getElementById("menu").style.display="none";
-    console.log(tool.mu);
-    break;
-
-
+    case 0:
+      tool = hammer;
+      document.getElementById("menu").style.display = "none";
+      var hammerBtn = document.getElementById('tool-hammer');
+      if (hammerBtn) hammerBtn.classList.add('active');
+      break;
+    case 1:
+      tool = gun;
+      document.getElementById("menu").style.display = "none";
+      var gunBtn = document.getElementById('tool-gun');
+      if (gunBtn) gunBtn.classList.add('active');
+      break;
   }
 }
