@@ -4,6 +4,25 @@ var painting = document.getElementById('paint');
 var paint_style = getComputedStyle(painting);
 canvas.width = parseInt(paint_style.getPropertyValue('width'));
 canvas.height = parseInt(paint_style.getPropertyValue('height'));
+
+// Keep canvas pixel dimensions in sync with display size on resize/orientation change
+function resizeCanvas() {
+  var ps = getComputedStyle(painting);
+  var newW = parseInt(ps.getPropertyValue('width'));
+  var newH = parseInt(ps.getPropertyValue('height'));
+  if (canvas.width !== newW || canvas.height !== newH) {
+    // Save current canvas content
+    var imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    canvas.width = newW;
+    canvas.height = newH;
+    // Restore canvas content
+    ctx.putImageData(imgData, 0, 0);
+  }
+}
+window.addEventListener('resize', resizeCanvas);
+window.addEventListener('orientationchange', function () {
+  setTimeout(resizeCanvas, 200);
+});
 var mouse = { x: 0, y: 0 };
 canvas.addEventListener('mousemove', function (e) {
   mouse.x = e.pageX - this.offsetLeft;

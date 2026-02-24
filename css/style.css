@@ -228,6 +228,91 @@ body {
   transform: translateY(1px) scale(0.98);
 }
 
+/* ===== Instructions Section ===== */
+
+.instructions {
+  margin: 50px auto 10px;
+  max-width: 720px;
+  width: 90%;
+}
+
+.instructions-title {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 600;
+  font-size: 22px;
+  color: #2c2c3a;
+  margin-bottom: 24px;
+  letter-spacing: 0.3px;
+}
+
+.instructions-steps {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.step-card {
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1.5px solid rgba(0, 0, 0, 0.06);
+  border-radius: 18px;
+  padding: 24px 18px 20px;
+  flex: 1;
+  min-width: 180px;
+  max-width: 220px;
+  position: relative;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  transition: all 0.3s ease;
+}
+
+.step-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(0, 199, 199, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 199, 199, 0.1);
+}
+
+.step-number {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 26px;
+  height: 26px;
+  background: linear-gradient(135deg, #00C7C7, #009e9e);
+  color: #fff;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  line-height: 26px;
+  text-align: center;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(0, 199, 199, 0.3);
+}
+
+.step-icon {
+  font-size: 32px;
+  margin-bottom: 8px;
+}
+
+.step-card h3 {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  color: #2c2c3a;
+  margin: 0 0 6px;
+}
+
+.step-card p {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 300;
+  font-size: 13px;
+  color: rgba(44, 44, 58, 0.6);
+  margin: 0;
+  line-height: 1.5;
+}
+
 #snapbtn {
   padding: 12px 28px;
   background: linear-gradient(135deg, #00C7C7, #00a3a3);
@@ -268,7 +353,7 @@ body {
 
 #myCanvas {
   background: no-repeat center center;
-  background-size: cover;
+  background-size: contain;
   height: 100%;
   width: 100%;
   touch-action: none;
@@ -406,6 +491,14 @@ body {
   #my_camera {
     margin-top: 150px;
   }
+
+  .instructions-title {
+    font-size: 26px;
+  }
+
+  .step-card {
+    max-width: 200px;
+  }
 }
 
 /* ===== Small screens ===== */
@@ -455,5 +548,23 @@ body {
   .toolbar-btn span:first-child:not(:last-child) {
     font-size: 20px;
     line-height: 24px;
+  }
+
+  .instructions {
+    margin-top: 36px;
+  }
+
+  .instructions-title {
+    font-size: 18px;
+  }
+
+  .instructions-steps {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .step-card {
+    max-width: 280px;
+    width: 100%;
   }
 }
